@@ -14,6 +14,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.post('*', upload.array(), (req, res) => {
+  let client_secret = process.env.CLIENT_SECRET
+  if (client_secret){
+    req.body.client_secret = client_secret
+  }
   request.post({
     url: 'https://github.com/login/oauth/access_token',
     form: req.body,
